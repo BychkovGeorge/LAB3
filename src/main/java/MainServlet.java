@@ -34,6 +34,7 @@ public class MainServlet extends HttpServlet {
         }*/
         Session session = HibernateSessionFactoryUtil.getSession();
         System.out.println("done");
+        req.getRequestDispatcher("login.jsp").forward(req,  resp);
+        session.close();
     }
-
 }
