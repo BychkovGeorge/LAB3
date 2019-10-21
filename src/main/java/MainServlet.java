@@ -18,23 +18,22 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("login.jsp").forward(req,  resp);
+        req.getRequestDispatcher("welcome.jsp").forward(req, resp);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        Session session = HibernateSessionFactoryUtil.getSession();
-        Transaction transaction = session.beginTransaction();
-        transaction.begin();
-        DAOLoginPassword lp = new DAOLoginPassword();
-        if (lp.isTrue(login, password)){
-            //  TODO добавить куки и тд
-        }*/
-        Session session = HibernateSessionFactoryUtil.getSession();
-        System.out.println("done");
-        req.getRequestDispatcher("login.jsp").forward(req,  resp);
-        session.close();
+       String choice = req.getParameter("choice");
+       switch(choice){
+           case "1":
+               resp.sendRedirect("http://localhost:8080/lab3_war_exploded/sign_up");
+               return;
+           case "2":
+               resp.sendRedirect("http://localhost:8080/lab3_war_exploded/sign_in");
+               return;
+           default:
+               resp.sendRedirect("http://localhost:8080/lab3_war_exploded/welcome");
+       }
     }
 }

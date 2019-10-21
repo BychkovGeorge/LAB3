@@ -1,40 +1,31 @@
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class DAOLoginPassword {
-
+public class DAOLoginHash {
     private Session session;
 
-
-
-    public DAOLoginPassword() {
-
+    public DAOLoginHash(){
         this.session = HibernateSessionFactoryUtil.getSession();
-
     }
 
-
-    public void addUser(UserPassword user) {
+    public void addHash (UserHash userHash){
         Session session = HibernateSessionFactoryUtil.getSession();
         Transaction tx1 = session.beginTransaction();
-        session.save(user);
+        session.save(userHash);
         tx1.commit();
         session.close();
     }
 
-
-
-    public boolean hasUser(String login, String password) {
+    public boolean hasHash(String login, String hash){
         boolean mark = false;
         Session session = HibernateSessionFactoryUtil.getSession();
         Transaction tx1 = session.beginTransaction();
-        UserPassword user = new UserPassword(login, password);
-        UserPassword user1 = session.get(UserPassword.class, login);
+        UserHash user = new UserHash(login, hash);
+        UserHash user1 = session.get(UserHash.class, login);
         if (user1 != null) {
-            if (user1.getPassword().equals(password))
+            if (user1.getHash().equals(hash))
                 mark = true;
         }
         tx1.commit();
@@ -42,14 +33,25 @@ public class DAOLoginPassword {
         return mark;
     }
 
-    public List<UserPassword> toList() {
+    public boolean isHashContainInTable(String hash) {
+
+        boolean isContain = false;
 
         Session session = HibernateSessionFactoryUtil.getSession();
         Transaction tx1 = session.beginTransaction();
-        List lps = session.createQuery("From UserPassword").getResultList();
-        tx1.commit();
-        session.close();
-        return lps;
+
+
+        List<UserHash> lhs = (List<UserHash>) session.createQuery("From UserHash").list();
+
+        for (UserHash lh : lhs) {
+
+            if (lh.getHash().equals(hash))
+
+                isContain = true;
+
+        }
+
+        return isContain;
 
     }
 }

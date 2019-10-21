@@ -5,8 +5,7 @@ import javax.persistence.*;
 @Entity
 public class UserPassword {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
 
     private String login;
 
@@ -15,11 +14,12 @@ public class UserPassword {
     public UserPassword(){}
 
     public UserPassword(String newLogin, String newPassword) {
+        this.id = (long) 9846 * System.currentTimeMillis();
         this.login = newLogin;
         this.password = newPassword;
     }
 
-    public Integer getId(){
+    public Long getId(){
         return this.id;
     }
 
