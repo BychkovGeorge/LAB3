@@ -25,8 +25,14 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String choice = req.getParameter("choice");
+       //TODO костыль, что ползователь вводит какое-то число
+       //сделай две разные кнопки на странице, которые будут отправлять тебя в разные сервлеты напрямую
+       //и этот метод можно будет удалить
        switch(choice){
            case "1":
+               //TODO во всем проекте ссылки захардкоженны, так делать нельзя
+               //у меня вот например на компе ссылка http://localhost:8080/lab3_1_war_exploded/sign_up
+               //делай через req.getContextPath() как мы делали во воторой лабе
                resp.sendRedirect("http://localhost:8080/lab3_war_exploded/sign_up");
                return;
            case "2":
