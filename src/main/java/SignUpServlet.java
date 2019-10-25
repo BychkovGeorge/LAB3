@@ -38,8 +38,8 @@ public class SignUpServlet extends HttpServlet {
                 resp.sendRedirect("http://localhost:8080/lab3_war_exploded/sign_in");
             else{
                 UserPassword userPassword = new UserPassword(login, password);
-                UserHash userHash = new UserHash(login, id);
                 daoLoginPassword.addUser(userPassword);
+                UserHash userHash = new UserHash(login, id);
                 daoLoginHash.addHash(userHash);
                 Cookie cookie = new Cookie("SessionId", id);
                 resp.addCookie(cookie);

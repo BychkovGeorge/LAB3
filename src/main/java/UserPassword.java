@@ -4,9 +4,9 @@ import javax.persistence.*;
 
 @Entity
 public class UserPassword {
-    @Id
-    private long id;
 
+    private long id;
+    @Id
     private String login;
 
     private String password;

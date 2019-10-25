@@ -1,6 +1,7 @@
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class DAOLoginHash {
@@ -23,7 +24,12 @@ public class DAOLoginHash {
         Session session = HibernateSessionFactoryUtil.getSession();
         Transaction tx1 = session.beginTransaction();
         UserHash user = new UserHash(login, hash);
-        UserHash user1 = session.get(UserHash.class, login);
+        UserHash user1;
+        try {
+            user1 = session.createQuery("From UserHash Where login='" + login + "'", UserHash.class).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        }
         if (user1 != null) {
             if (user1.getHash().equals(hash))
                 mark = true;

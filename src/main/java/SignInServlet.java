@@ -13,7 +13,7 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("sign_in.jsp");
+        req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
     }
 
     @Override
@@ -27,12 +27,12 @@ public class SignInServlet extends HttpServlet {
             DAOLoginHash daoLoginHash = new DAOLoginHash();
             UserHash userHash = new UserHash(login, id);
             daoLoginHash.addHash(userHash);
-            boolean isOk2 = daoLoginHash.hasHash(login, id);
-            if (isOk2){
+            //boolean isOk2 = daoLoginHash.hasHash(login, id);
+            //
                 Cookie cookie = new Cookie("SessionId", id);
                 resp.addCookie(cookie);
                 resp.sendRedirect("http://localhost:8080/lab3_war_exploded/enter");
-            }
+            //}
         }
         else{
             resp.sendRedirect("http://localhost:8080/lab3_war_exploded/sign_up");

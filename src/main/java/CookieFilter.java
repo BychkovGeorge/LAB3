@@ -13,23 +13,45 @@ public class CookieFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
-            if ((((HttpServletRequest) servletRequest).getRequestURI().equals("http://localhost:8080/lab3_war_exploded/users")))
+            if ((((HttpServletRequest) servletRequest).getRequestURI().equals("/lab3_war_exploded/enter"))) {
                 ((HttpServletResponse) servletResponse).sendRedirect("http://localhost:8080/lab3_war_exploded/welcome");
+                return;
+            }
             else
                 filterChain.doFilter(servletRequest, servletResponse);
         }
         else{
+            int counter = 0;
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("SessionId")) {
-                        DAOLoginHash daoLoginHash = new DAOLoginHash();
-                        boolean bool = daoLoginHash.isHashContainInTable(cookie.getValue());
-                        if (bool)
-                            request.getRequestDispatcher("users.jsp").forward(request, response);
+                        String s = request.getRequestURI();
+                    if (request.getRequestURI().equals("/lab3_war_exploded/welcome")) {
+                        response.sendRedirect("http://localhost:8080/lab3_war_exploded/enter");
+                        return;
                     }
+                    else if (request.getRequestURI().equals("/lab3_war_exploded/sign_in")) {
+                        response.sendRedirect("http://localhost:8080/lab3_war_exploded/enter");
+                        return;
+                    }
+                    else if (request.getRequestURI().equals("/lab3_war_exploded/sign_up")) {
+                        response.sendRedirect("http://localhost:8080/lab3_war_exploded/enter");
+                        return;
+                    }
+                    }
+                counter++;
+                }
+            if (counter < 2){
+                if (request.getRequestURI().equals("/lab3_war_exploded/enter")) {
+                    response.sendRedirect("http://localhost:8080/lab3_war_exploded/welcome");
+                    return;
                 }
             }
+            if (!request.getRequestURI().equals("/lab3_war_exploded/enter") && !request.getRequestURI().equals("/lab3_war_exploded/welcome") && !request.getRequestURI().equals("/lab3_war_exploded/sign_in") && !request.getRequestURI().equals("/lab3_war_exploded/sign_up")) {
+                response.sendRedirect("http://localhost:8080/lab3_war_exploded/welcome");
+                return;
+            }
+        }
         filterChain.doFilter(request, response);
         }
 
     }
-

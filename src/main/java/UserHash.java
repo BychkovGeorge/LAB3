@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class UserHash {
     @Id
+    @GeneratedValue
     private long id;
 
     private String login;
@@ -14,7 +15,7 @@ public class UserHash {
     public UserHash(){}
 
     public UserHash(String newLogin, String newHash) {
-        this.id = (long) 235 * System.currentTimeMillis();
+        //this.id = (long) 235 * System.currentTimeMillis();
         this.login = newLogin;
         this.hash = newHash;
     }
